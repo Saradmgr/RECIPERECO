@@ -1,0 +1,144 @@
+.card-list {
+  width: calc(50% - 1.5rem);
+  margin-right: 1.875rem;
+}
+.header {
+  display: flex;
+  justify-content: space-around;
+  justify-items: center;
+  color: white;
+  width: 100%;
+}
+.iteminfo {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  justify-items: center;
+  color: black;
+  cursor: pointer;
+}
+.logo{
+  height: 60px;
+  width: 60px;
+}
+.description{
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.description1{
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+}
+  .navbar{
+    padding: 24;
+    background: azure;
+    min-height: 380;
+  }
+  .image{
+    height:50px ;
+    width: 50px;
+    padding: auto;
+    margin-top: auto;
+  }
+  .footer {
+    /* position: fixed; */
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #f0f0f0; /* Optional background color */
+  text-align: center;
+  padding: 10px; /* Optional background color */
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Set the container to full viewport height */
+  }
+  
+  .content {
+    flex: 1; /* Let the content expand to fill remaining space */
+  }
+  .full-layout {
+    width: 100vw;
+    min-height: 100vh; 
+    margin: 0;
+    padding: 0;
+  }
+  .headers{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+  }
+  
+  .wrapper{
+    width: 420px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(9px);
+    color: #fff;
+    border-radius: 12px;
+    padding: 30px 40px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url(bg.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: auto;
+  }
+  .input-box {
+    background: transparent;
+    width: 100%;
+  }
+  .input-box input::placeholder{
+    color: #fff;
+    
+  }
+  .wrapper .remember-forgot{
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: -15px 0 15px;
+  }
+  .remember-forgot label input{
+    accent-color: #fff;
+    margin-right: 3px;
+  
+  }
+  .remember-forgot a{
+    color: #fff;
+    text-decoration: none;
+  
+  }
+  .remember-forgot a:hover{
+    text-decoration: underline;
+  }
+  .wrapper .btn{
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+  }
+  .input-boxs {
+    background: transparent;
+    width: 50%;
+  }
