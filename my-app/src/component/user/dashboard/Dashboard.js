@@ -53,9 +53,10 @@ const Dashboard = () => {
 
   const AddCart = (item) => {
     const fetchsavedRecipes = carddata?.fetchsaved?.data;
-    const existingItemIndex = carddata?.fetchsaved?.recipeId?.findIndex(
-      (cartItem) => cartItem._id === item?._id
+    const existingItemIndex = carddata?.fetchsaved?.data?.findIndex(
+      (cartItem) => cartItem?.recipeId?._id === item?._id
     );
+
     console.log("dasdsadasd", existingItemIndex);
     if (existingItemIndex === -1 || fetchsavedRecipes.length === 0) {
       const userId = carddata?.authSlice?.userInfo?._id; // Get userId as a string
