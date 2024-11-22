@@ -1,12 +1,13 @@
 import express from "express";
 import {
   allrecipe,
+  allrecipeadmin,
   calculateAndUpdateVectors,
+  deleteRecipeAdmin,
   getRecommendations,
   recipebyid,
   searchRecipesByName,
 } from "../controllers/recipeController.js";
-import { Recipe } from "../models/recipeModels.js";
 
 const router = express.Router();
 
@@ -15,7 +16,8 @@ router.get("/search", searchRecipesByName);
 
 // Get all recipes
 router.get("/", allrecipe);
-
+// Get all recipes for admin
+router.get("/admin", allrecipeadmin);
 // Get recipe by ID
 router.get("/:id", recipebyid);
 
@@ -23,5 +25,7 @@ router.get("/:id", recipebyid);
 router.get("/:id/recommendations", getRecommendations);
 // Update vectors
 router.post("/update-vectors", calculateAndUpdateVectors);
+router.get("/admin", allrecipeadmin);
+router.delete("/deleterecipe/:id", deleteRecipeAdmin);
 
 export default router;

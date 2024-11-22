@@ -14,6 +14,7 @@ import recipeSearchSlice from "./slices/recipeSearchSlice";
 import savedRecipeSlice from "./slices/savedRecipeSlice";
 
 // Create reset reducer function if needed (optional)
+import AllRecipeSlices from "./slices/AllRecipeSlices.js";
 import { createResetMetaReducer } from "./slices/metaReducer";
 
 // List of slices to reset when required
@@ -30,6 +31,7 @@ const resetSlices = [
   "registerUser",
   "saved",
   "fetchsaved",
+  "allrecipe",
 ];
 
 const rootReducer = createResetMetaReducer(
@@ -48,6 +50,7 @@ const rootReducer = createResetMetaReducer(
     registerUser: Userslice,
     saved: savedRecipeSlice,
     fetchsaved: fetchSavedSlice,
+    allrecipe: AllRecipeSlices,
   })
 );
 

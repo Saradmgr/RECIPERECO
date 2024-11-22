@@ -1,16 +1,11 @@
 import {
-  AppstoreOutlined,
   BookOutlined,
   ContainerOutlined,
-  DeleteOutlined,
   DesktopOutlined,
-  EditOutlined,
   FileAddOutlined,
   PieChartOutlined,
 } from "@ant-design/icons";
 import AddRecipe from "../admin/recipe/AddRecipe";
-import DeleteRecipe from "../admin/recipe/DeleteRecipe";
-import EditRecipe from "../admin/recipe/EditRecipe";
 
 export const options = [
   {
@@ -163,20 +158,8 @@ export const items = [
 export const recipeaction = [
   {
     key: 1,
-    label: "Add",
+    label: "View Recipes",
     children: <AddRecipe />,
     icon: <FileAddOutlined />,
-  },
-  {
-    key: 2,
-    label: "Delete",
-    children: <DeleteRecipe />,
-    icon: <DeleteOutlined />,
-  },
-  {
-    key: 3,
-    label: "Edit",
-    children: <EditRecipe />,
-    icon: <EditOutlined />,
   },
 ];

@@ -133,3 +133,30 @@ export const searchRecipesByName = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+export const allrecipeadmin = async (request, response) => {
+  try {
+    // Fetch the first 100 recipe
+    const recipe = await Recipe.find({}).limit(100);
+
+    return response.status(200).json({
+      count: recipe.length,
+      data: recipe,
+    });
+  } catch (error) {
+    return response.status(500).send({ message: error.message });
+  }
+};
+export const deleteRecipeAdmin = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const result = await Recipe.findByIdAndDelete(id);
+    if (!result) {
+      return response.status(404).json({ message: "Recipe not Found" });
+    }
+    return response
+      .status(200)
+      .send({ message: "Recipe deleted successfully" });
+  } catch (error) {
+    return response.status(500).send({ message: error.message });
+  }
+};

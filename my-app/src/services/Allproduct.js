@@ -5,7 +5,10 @@ export const getRecipes = createAsyncThunk("api/allproducts", async () => {
   const response = await axios.get("http://localhost:5000/recipes");
   return response.data.data; // Assuming the data array is here
 });
-
+export const getRecipesAdmin = createAsyncThunk("api/allrecipe", async () => {
+  const response = await axios.get("http://localhost:5000/recipes/admin");
+  return response.data.data; // Assuming the data array is here
+});
 export const fetchSearchProducts = createAsyncThunk(
   "api/detailfetch",
   async (id) => {
