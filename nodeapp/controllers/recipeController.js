@@ -65,7 +65,7 @@ export const getRecommendations = async (req, res) => {
         similarityScore: cosineSimilarity(targetVector, r.vector),
       }))
       .sort((a, b) => b.similarityScore - a.similarityScore)
-      .slice(0, 5); // Top 5 recommendations
+      .slice(0, 10); // Top 5 recommendations
 
     res.status(200).json({ recommendations });
   } catch (error) {

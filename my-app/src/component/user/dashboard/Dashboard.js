@@ -76,8 +76,9 @@ const Dashboard = () => {
     }
   };
 
-  const handleRecipeClick = (id) => {
-    navigate(`/details/${id}`);
+  const handleDetails = (item) => {
+    // Navigate to details page of the recipe
+    navigate(`/details/${item?._id}`);
   };
 
   const recipesToDisplay =
@@ -120,7 +121,19 @@ const Dashboard = () => {
                   borderRadius: "8px",
                   boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
                 }}
-                cover={<Image alt={item?.RecipeName} src={item?.imageurl} />}
+                cover={
+                  <Image
+                    alt={item?.RecipeName}
+                    src={item?.imageurl}
+                    style={{
+                      height: "200px", // Set a fixed height to make the image square
+                      width: "200px", // Set a fixed width to make the image square
+                      objectFit: "cover", // Ensures the image covers the area without distortion
+                      margin: "0 auto", // Centers the image within the card
+                    }}
+                  />
+                }
+                onClick={() => handleDetails(item)} // Add onClick to navigate to details page
               >
                 <div className="font-extrabold text-lg text-center mb-2">
                   {item?.RecipeName}
@@ -131,7 +144,10 @@ const Dashboard = () => {
                 </div>
                 <div className="mt-4 flex justify-center">
                   <HeartOutlined
-                    onClick={() => AddCart(item)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent the click event from triggering the recipe click
+                      AddCart(item);
+                    }}
                     className="text-red-500 cursor-pointer hover:scale-110 transition-transform"
                     style={{ fontSize: "24px" }}
                   />

@@ -3,10 +3,11 @@ import { Button, Card, Image, Modal, Typography } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { updateCard } from "../../redux/slices/AddToCart";
 import {
   fetchRecommendations,
   fetchSearchProducts,
+  fetchsavedRecipe,
+  savedRecipe,
 } from "../../services/Allproduct";
 
 const { Title, Text } = Typography;
@@ -23,6 +24,7 @@ const Details = () => {
   const [modalContent, setModalContent] = useState([]);
   const [modalTitle, setModalTitle] = useState("");
 
+  const { userInfo } = useSelector((state) => state.authSlice);
   React.useEffect(() => {
     dispatch(fetchSearchProducts(id));
     dispatch(fetchRecommendations(id));
@@ -33,25 +35,38 @@ const Details = () => {
   };
 
   const AddCart = (item) => {
-    const existingItemIndex = carddata?.addToCart?.data.findIndex(
-      (cartItem) => cartItem._id === item?._id
+    const fetchsavedRecipes = carddata?.fetchsaved?.data;
+    const existingItemIndex = carddata?.fetchsaved?.data?.findIndex(
+      (cartItem) => cartItem?.recipeId?._id === item?._id
     );
-    if (existingItemIndex === -1) {
-      const updatedItem = { ...item };
-      dispatch(updateCard([...carddata?.addToCart?.data, updatedItem]));
+
+    if (userInfo) {
+      if (existingItemIndex === -1 || fetchsavedRecipes.length === 0) {
+        const userId = carddata?.authSlice?.userInfo?._id;
+        const recipeId = item?._id;
+
+        dispatch(savedRecipe({ userId, recipeId }))
+          .then(() => {
+            dispatch(fetchsavedRecipe(userId));
+          })
+          .catch((error) => {
+            console.error("Error adding recipe to cart:", error);
+          });
+      } else {
+        console.error("Already exists");
+      }
+    } else {
+      navigate("/auth/login");
     }
-    console.log(item?._id);
   };
 
   const handleSeeMore = (content, title) => {
-    // Check if the title is "Instructions" to keep it in one row and split by full stop.
     if (title === "Instructions") {
-      // Split content by full stop to get individual sentences.
       const sentences = content
         .split(".")
         .map((item) => item.trim())
         .filter(Boolean);
-      setModalContent(sentences); // For instructions, split into sentences
+      setModalContent(sentences);
     } else {
       const formattedContent = content.split(",").map((item) => item.trim());
       setModalContent(formattedContent);
@@ -129,17 +144,27 @@ const Details = () => {
       <Title level={4} className="mt-8 mb-4">
         Recommended Recipes
       </Title>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
         {recommendations?.map((item, index) => (
           <Card
             key={index}
             hoverable
             className="shadow-md rounded-lg"
+            style={{
+              width: "100%",
+              maxWidth: "220px", // Adjusting the width of the card
+              margin: "0 auto", // Center the card within the column
+              padding: "8px", // Add padding to reduce card size
+            }}
             cover={
               <Image
                 alt={item?.RecipeName}
                 src={item?.imageurl}
                 className="rounded-t-lg"
+                style={{
+                  height: "150px", // Adjust image height to make it smaller
+                  objectFit: "cover",
+                }}
               />
             }
           >
@@ -147,10 +172,16 @@ const Details = () => {
               onClick={() => handleRecipeClick(item._id)}
               className="cursor-pointer"
             >
-              <Title level={5}>{item?.RecipeName}</Title>
-              <Text type="secondary">Cuisine: {item?.Cuisine}</Text>
+              <Title level={5} style={{ fontSize: "16px" }}>
+                {item?.RecipeName}
+              </Title>
+              <Text type="secondary" style={{ fontSize: "12px" }}>
+                Cuisine: {item?.Cuisine}
+              </Text>
               <br />
-              <Text>Total Time: {item?.TotalTimeInMins} mins</Text>
+              <Text style={{ fontSize: "12px" }}>
+                Total Time: {item?.TotalTimeInMins} mins
+              </Text>
             </div>
             <div className="flex justify-end mt-2">
               <HeartOutlined
@@ -170,14 +201,12 @@ const Details = () => {
         footer={null}
       >
         {modalTitle === "Instructions" ? (
-          // For Instructions, render sentences with "-" before each one
           modalContent.map((sentence, index) => (
             <Text key={index} className="block">
               - {sentence}.
             </Text>
           ))
         ) : (
-          // For other content, render in two columns
           <div className="grid grid-cols-2 gap-4">
             {modalContent.map((item, index) => (
               <Text key={index} className="block">
