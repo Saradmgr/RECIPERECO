@@ -9,7 +9,11 @@ const initialState = {
 const allRecipeSlices = createSlice({
   name: "allrecipe",
   initialState,
-  reducers: {},
+  reducers: {
+    deleteRecipe(state, action) {
+      state.data = state.data.filter((recipe) => recipe._id !== action.payload); // Remove the recipe by id
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getRecipesAdmin.pending, (state) => {
@@ -25,4 +29,5 @@ const allRecipeSlices = createSlice({
       });
   },
 });
+export const { deleteRecipe } = allRecipeSlices.actions;
 export default allRecipeSlices.reducer;
