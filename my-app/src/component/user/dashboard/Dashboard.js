@@ -58,21 +58,25 @@ const Dashboard = () => {
     );
 
     console.log("dasdsadasd", existingItemIndex);
-    if (existingItemIndex === -1 || fetchsavedRecipes.length === 0) {
-      const userId = carddata?.authSlice?.userInfo?._id; // Get userId as a string
-      const recipeId = item?._id; // Get RecipeId as a string
+    if (userInfo) {
+      if (existingItemIndex === -1 || fetchsavedRecipes.length === 0) {
+        const userId = carddata?.authSlice?.userInfo?._id; // Get userId as a string
+        const recipeId = item?._id; // Get RecipeId as a string
 
-      // Dispatch savedRecipe to save the recipe to the cart
-      dispatch(savedRecipe({ userId, recipeId }))
-        .then(() => {
-          // After saving the recipe, fetch the updated list of saved recipes
-          dispatch(fetchsavedRecipe(userId)); // Fetch saved recipes
-        })
-        .catch((error) => {
-          console.error("Error adding recipe to cart:", error);
-        });
+        // Dispatch savedRecipe to save the recipe to the cart
+        dispatch(savedRecipe({ userId, recipeId }))
+          .then(() => {
+            // After saving the recipe, fetch the updated list of saved recipes
+            dispatch(fetchsavedRecipe(userId)); // Fetch saved recipes
+          })
+          .catch((error) => {
+            console.error("Error adding recipe to cart:", error);
+          });
+      } else {
+        console.error("Already exists");
+      }
     } else {
-      console.error("Already exists");
+      navigate("/auth/login");
     }
   };
 

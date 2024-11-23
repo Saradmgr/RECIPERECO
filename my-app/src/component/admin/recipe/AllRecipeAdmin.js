@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteRecipe } from "../../../redux/slices/AllRecipeSlices";
 import { getRecipesAdmin } from "../../../services/Allproduct";
 
-const AddRecipe = () => {
+const AllRecipeAdmin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const carddata = useSelector((state) => state);
@@ -83,4 +83,4 @@ const AddRecipe = () => {
   );
 };
 
-export default AddRecipe;
+export default AllRecipeAdmin;

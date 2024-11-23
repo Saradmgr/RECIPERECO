@@ -160,3 +160,15 @@ export const deleteRecipeAdmin = async (request, response) => {
     return response.status(500).send({ message: error.message });
   }
 };
+export const allrecipeadminlength = async (request, response) => {
+  try {
+    // Fetch the first 100 recipe
+    const recipe = await Recipe.find({});
+
+    return response.status(200).json({
+      count: recipe.length,
+    });
+  } catch (error) {
+    return response.status(500).send({ message: error.message });
+  }
+};

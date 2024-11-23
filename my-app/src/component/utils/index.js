@@ -1,11 +1,12 @@
 import {
   BookOutlined,
-  ContainerOutlined,
   DesktopOutlined,
   FileAddOutlined,
   PieChartOutlined,
+  PlusCircleFilled,
 } from "@ant-design/icons";
-import AddRecipe from "../admin/recipe/AddRecipe";
+import AddNewRecipes from "../admin/recipe/AddNewRecipes";
+import AllRecipeAdmin from "../admin/recipe/AllRecipeAdmin";
 
 export const options = [
   {
@@ -150,16 +151,21 @@ function getItem(label, key, icon, children, type) {
   };
 }
 export const items = [
-  getItem("Dashboard", "/admin/dashboard", <PieChartOutlined />),
+  getItem("Dashboard", "/admin/recipeslist", <PieChartOutlined />),
   getItem("User List", "/admin/userlist", <DesktopOutlined />),
-  getItem("Profile", "/admin/profile", <ContainerOutlined />),
   getItem("Recipes", "/admin/recipes", <BookOutlined />),
 ];
 export const recipeaction = [
   {
     key: 1,
     label: "View Recipes",
-    children: <AddRecipe />,
+    children: <AllRecipeAdmin />,
     icon: <FileAddOutlined />,
+  },
+  {
+    key: 2,
+    label: "Add Recipes",
+    children: <AddNewRecipes />,
+    icon: <PlusCircleFilled />,
   },
 ];

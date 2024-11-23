@@ -1,9 +1,8 @@
+import { DeleteOutlined } from "@ant-design/icons";
+import { Button, Modal, Skeleton } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { Skeleton, Button, Modal } from "antd";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
-import axios from "axios";
 import UserDelete from "./UserDelete";
 
 const AllUser = () => {
@@ -17,7 +16,7 @@ const AllUser = () => {
   const fetchUsers = () => {
     setLoading(true);
     axios
-      .get("http://localhost:5000/user")
+      .get("http://localhost:5000/user/alluser")
       .then((response) => {
         setUser(response.data.data);
         setLoading(false);

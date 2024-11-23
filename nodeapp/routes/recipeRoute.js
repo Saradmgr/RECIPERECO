@@ -2,6 +2,7 @@ import express from "express";
 import {
   allrecipe,
   allrecipeadmin,
+  allrecipeadminlength,
   calculateAndUpdateVectors,
   deleteRecipeAdmin,
   getRecommendations,
@@ -27,5 +28,6 @@ router.get("/:id/recommendations", getRecommendations);
 router.post("/update-vectors", calculateAndUpdateVectors);
 router.get("/admin", allrecipeadmin);
 router.delete("/deleterecipe/:id", deleteRecipeAdmin);
+router.get("/admin/recipelength", allrecipeadminlength);
 
 export default router;

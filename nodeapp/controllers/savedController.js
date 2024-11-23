@@ -75,3 +75,13 @@ export const deleteSavedRecipe = async (request, response) => {
     return response.status(500).send({ message: error.message });
   }
 };
+export const allsavedrecipelength = async (request, response) => {
+  try {
+    const result = await Saved.find({});
+    return response.status(200).json({
+      count: result.length,
+    });
+  } catch (error) {
+    return response.status(500).send({ message: error.message });
+  }
+};

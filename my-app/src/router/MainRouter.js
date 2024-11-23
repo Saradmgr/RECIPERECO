@@ -4,14 +4,15 @@ import {
   createBrowserRouter,
   createRoutesFromChildren,
 } from "react-router-dom";
-import AllUser from "../component/admin/AllUser";
-import axios from "axios";
-import FakeDashboard from "../component/user/FakeDashboard";
-import Login from "../component/user/Login";
 import AdminRecipes from "../component/admin/AdminRecipes";
+import AllUser from "../component/admin/AllUser";
+import AllrecipesCount from "../component/admin/recipe/AllrecipesCount";
+import Login from "../component/user/Login";
+import {
+  default as RecipeDetails,
+  default as RecipeSearch,
+} from "../component/user/UserProfile/RecipeDetails";
 import Dashboard from "../component/user/dashboard/Dashboard";
-import RecipeDetails from "../component/user/UserProfile/RecipeDetails";
-import RecipeSearch from "../component/user/UserProfile/RecipeDetails";
 const Apps = React.lazy(() => import("../component/user/Apps"));
 const Details = React.lazy(() => import("../component/user/Details"));
 const Signup = React.lazy(() => import("../component/user/Signup"));
@@ -52,6 +53,7 @@ export const MainRouter = createBrowserRouter(
         <Route path="dashboard" element={<AdminDashboard />} />\
         <Route path="userlist" element={<AllUser />} />
         <Route path="recipes" element={<AdminRecipes />} />
+        <Route path="recipeslist" element={<AllrecipesCount />} />
       </Route>
       <Route path="/auth" element={<AuthLayout />}>
         <Route path="signup" element={<Signup />} />
