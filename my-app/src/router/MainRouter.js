@@ -13,7 +13,6 @@ import {
   default as RecipeSearch,
 } from "../component/user/UserProfile/RecipeDetails";
 import Dashboard from "../component/user/dashboard/Dashboard";
-const Apps = React.lazy(() => import("../component/user/Apps"));
 const Details = React.lazy(() => import("../component/user/Details"));
 const Signup = React.lazy(() => import("../component/user/Signup"));
 const AuthLayout = React.lazy(() => import("../component/layout/AuthLayout"));
@@ -46,7 +45,6 @@ export const MainRouter = createBrowserRouter(
         <Route path="/settings" element={<Settings />} />
         <Route path="/aboutus" element={<Aboutus />} />
         <Route path="/contact" element={<Contactus />} />
-        <Route path="/userdashboard" element={<Apps />} />\
         <Route path="/search" element={<RecipeSearch />} />
       </Route>
       <Route path="/admin" element={<Adminlayout />}>

@@ -1,16 +1,13 @@
 import { DeleteOutlined } from "@ant-design/icons";
-import { Button, Modal, Skeleton } from "antd";
+import { Modal, Skeleton } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import UserDelete from "./UserDelete";
 
 const AllUser = () => {
-  const dispatch = useDispatch();
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [loadings, setLoadings] = useState(true);
   const [selectedUserId, setSelectedUserId] = useState(null);
 
   const fetchUsers = () => {
@@ -26,15 +23,10 @@ const AllUser = () => {
         setLoading(false);
       });
   };
+
   const showLoading = (id) => {
     setSelectedUserId(id);
     setOpen(true);
-    setLoadings(true);
-
-    // Simple loading mock. You should add cleanup logic in real world.
-    setTimeout(() => {
-      setLoadings(false);
-    }, 2000);
   };
 
   const closeModal = () => {
@@ -45,11 +37,13 @@ const AllUser = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
+
   return (
-    <div className="p-4">
-      <div className="flex justify-center items-center gap-x-4">
-        <h1 className="text-3xl my-8">User Lists</h1>
+    <div className="p-4 sm:p-6 md:p-8">
+      <div className="flex justify-center items-center gap-x-4 mb-8">
+        <h1 className="text-3xl font-semibold">User Lists</h1>
       </div>
+
       {loading ? (
         <Skeleton />
       ) : (
@@ -76,15 +70,15 @@ const AllUser = () => {
                 <td className="border border-slate-700 rounded-md text-center">
                   {user.name}
                 </td>
-                <td className="border border-slate-700 rounded-md text-center">
+                <td className="border border-slate-700 rounded-md text-center max-md:hidden">
                   {user.email}
                 </td>
-                <td className="border border-slate-700 rounded-md text-center">
+                <td className="border border-slate-700 rounded-md text-center max-md:hidden">
                   {user.phone}
                 </td>
                 <td className="flex justify-center gap-x-4">
                   <DeleteOutlined
-                    className="text-2x text-red-800"
+                    className="text-2xl text-red-800 cursor-pointer"
                     onClick={() => showLoading(user._id)}
                   />
                 </td>
@@ -93,17 +87,14 @@ const AllUser = () => {
           </tbody>
         </table>
       )}
+
+      {/* Clean Modal without footer or title */}
       <Modal
-        title={<p>Loading Modal</p>}
-        footer={
-          <Button type="primary" onClick={showLoading}>
-            Reload
-          </Button>
-        }
-        loading={loading}
         open={open}
         onCancel={closeModal}
-        width={1000}
+        footer={null} // Removes footer for a cleaner look
+        width="100%" // Makes the modal width 100% of the screen width
+        centered // Centers the modal vertically and horizontally
       >
         <UserDelete
           id={selectedUserId}

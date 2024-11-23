@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, Modal, message } from "antd";
+import { Button, Form, Input, message } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -67,10 +67,6 @@ const Login = () => {
             <Input.Password />
           </Form.Item>
           <Form.Item>
-            <Checkbox>Remember me</Checkbox>
-            <a onClick={() => setIsModalOpen(true)}>Forgot Password?</a>
-          </Form.Item>
-          <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
@@ -88,29 +84,6 @@ const Login = () => {
             </p>
           </div>
         </Form>
-
-        <Modal
-          title="Reset Password"
-          open={isModalOpen}
-          onOk={handlePasswordReset}
-          onCancel={() => setIsModalOpen(false)}
-        >
-          <p>Enter your registered email, and we'll send you a reset code.</p>
-          <Form.Item
-            name="modalEmail"
-            label="E-mail"
-            rules={[
-              { type: "email", message: "Please enter a valid email!" },
-              { required: true, message: "Please enter your email!" },
-            ]}
-          >
-            <Input
-              className="input-box"
-              value={modalEmail}
-              onChange={(e) => setModalEmail(e.target.value)}
-            />
-          </Form.Item>
-        </Modal>
       </div>
     </div>
   );

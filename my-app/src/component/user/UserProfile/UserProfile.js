@@ -1,30 +1,26 @@
-import React from 'react';
-import {  Tabs } from 'antd';
-import Favorite from './Favorite';
-import RecipeBooks from './RecipeBooks';
-
+import { Tabs } from "antd";
+import React from "react";
+import RecipeBooks from "./RecipeBooks";
+import UserDetails from "./UserDetails";
 
 const UserProfile = () => {
-    const items=[
-        {
-            key: '1',
-            label: 'Recipe Book',
-            children: <RecipeBooks/>,
-          },
-          {
-            key: '2',
-            label: 'Favourite',
-            children: <Favorite/>,
-          },
-    ]
-    return (
-      <>
-        <Tabs
-          defaultActiveKey="1"
-          items={items}
-        />
-      </>
-    );
-}
+  const items = [
+    {
+      key: "1",
+      label: "Details",
+      children: <UserDetails />,
+    },
+    {
+      key: "2",
+      label: "Recipe Book",
+      children: <RecipeBooks />,
+    },
+  ];
+  return (
+    <>
+      <Tabs defaultActiveKey="1" items={items} />
+    </>
+  );
+};
 
-export default UserProfile
+export default UserProfile;

@@ -135,8 +135,8 @@ export const searchRecipesByName = async (req, res) => {
 };
 export const allrecipeadmin = async (request, response) => {
   try {
-    // Fetch the first 100 recipe
-    const recipe = await Recipe.find({}).limit(100);
+    // Fetch the first 100 recipes and sort them alphabetically by RecipeName
+    const recipe = await Recipe.find({}).sort({ RecipeName: 1 });
 
     return response.status(200).json({
       count: recipe.length,
@@ -146,6 +146,7 @@ export const allrecipeadmin = async (request, response) => {
     return response.status(500).send({ message: error.message });
   }
 };
+
 export const deleteRecipeAdmin = async (request, response) => {
   try {
     const { id } = request.params;
@@ -170,5 +171,67 @@ export const allrecipeadminlength = async (request, response) => {
     });
   } catch (error) {
     return response.status(500).send({ message: error.message });
+  }
+};
+
+// Function to add a new recipe
+export const addRecipe = async (req, res) => {
+  try {
+    const {
+      RecipeName,
+      Ingredients,
+      TotalTimeInMins,
+      Cuisine,
+      Instructions,
+      CleanedIngredients,
+      imageurl,
+      Ingredientcount,
+    } = req.body;
+
+    // Validate input data
+    if (
+      !RecipeName ||
+      !Ingredients ||
+      !TotalTimeInMins ||
+      !Cuisine ||
+      !Instructions ||
+      !CleanedIngredients ||
+      !imageurl ||
+      !Ingredientcount
+    ) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // Create a new Recipe document
+    const newRecipe = new Recipe({
+      RecipeName,
+      Ingredients,
+      TotalTimeInMins,
+      Cuisine,
+      Instructions,
+      CleanedIngredients,
+      imageurl,
+      Ingredientcount,
+    });
+
+    // Calculate vector for the recipe (vector is based on CleanedIngredients)
+    const ingredientsArray = CleanedIngredients.split(",");
+    const uniqueIngredients = await Recipe.distinct("CleanedIngredients");
+    const vector = uniqueIngredients.map((ingredient) =>
+      ingredientsArray.includes(ingredient.trim()) ? 1 : 0
+    );
+
+    // Set the vector for the recipe
+    newRecipe.vector = vector;
+
+    // Save the recipe to the database
+    await newRecipe.save();
+
+    return res
+      .status(201)
+      .json({ message: "Recipe added successfully", data: newRecipe });
+  } catch (error) {
+    console.error("Error adding recipe:", error);
+    return res.status(500).json({ message: "Server error" });
   }
 };

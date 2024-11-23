@@ -1,9 +1,4 @@
-import {
-  BookOutlined,
-  LoginOutlined,
-  SettingOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { BookOutlined, LoginOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Badge, Dropdown, Layout, Menu, Modal, Space } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,11 +30,6 @@ const Userlayout = () => {
     },
     {
       key: "2",
-      label: <div onClick={() => handleClick("/settings")}> Setting</div>,
-      icon: <SettingOutlined />,
-    },
-    {
-      key: "3",
       label: <div onClick={() => setIsLogoutModalOpen(true)}>Logout</div>,
       icon: <LoginOutlined />,
     },
@@ -50,6 +40,7 @@ const Userlayout = () => {
   const handleLogout = () => {
     dispatch(logout());
     setIsLogoutModalOpen(false);
+    navigate("/");
     console.log("Logout successful!"); // Redirect to login after logout
   };
 

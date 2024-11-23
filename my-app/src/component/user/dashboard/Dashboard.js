@@ -1,5 +1,5 @@
 import { HeartOutlined } from "@ant-design/icons";
-import { Button, Card, Image, Input } from "antd";
+import { Button, Card, Image, Input, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,6 @@ const Dashboard = () => {
     // Fetch all recipes on component mount
     dispatch(getRecipes());
 
-    // Only dispatch userLogin if there's no user data or token in Redux state
     if (!userInfo) {
       const savedUserInfo = localStorage.getItem("userInfo");
       const savedUserToken = localStorage.getItem("userToken");
@@ -40,7 +39,7 @@ const Dashboard = () => {
       const userId = userInfo._id;
       dispatch(fetchsavedRecipe(userId));
     }
-  }, [dispatch, userInfo]); // Depend on userInfo to trigger fetching saved recipes when user logs in
+  }, [dispatch, userInfo]);
 
   const handleSearch = () => {
     if (searchTerm) {
@@ -57,17 +56,14 @@ const Dashboard = () => {
       (cartItem) => cartItem?.recipeId?._id === item?._id
     );
 
-    console.log("dasdsadasd", existingItemIndex);
     if (userInfo) {
       if (existingItemIndex === -1 || fetchsavedRecipes.length === 0) {
-        const userId = carddata?.authSlice?.userInfo?._id; // Get userId as a string
-        const recipeId = item?._id; // Get RecipeId as a string
+        const userId = carddata?.authSlice?.userInfo?._id;
+        const recipeId = item?._id;
 
-        // Dispatch savedRecipe to save the recipe to the cart
         dispatch(savedRecipe({ userId, recipeId }))
           .then(() => {
-            // After saving the recipe, fetch the updated list of saved recipes
-            dispatch(fetchsavedRecipe(userId)); // Fetch saved recipes
+            dispatch(fetchsavedRecipe(userId));
           })
           .catch((error) => {
             console.error("Error adding recipe to cart:", error);
@@ -84,41 +80,62 @@ const Dashboard = () => {
     navigate(`/details/${id}`);
   };
 
-  // Determine which recipes to display
   const recipesToDisplay =
     searchResults.length > 0 ? searchResults : allRecipes;
 
   return (
-    <div>
-      <div className="search-bar">
+    <div className="p-4 sm:p-6 md:p-8">
+      {/* Search Bar */}
+      <div className="flex justify-center items-center mb-6">
         <Input
           placeholder="Search for a recipe..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ width: 200, marginRight: 10 }}
+          style={{
+            width: "60%",
+            maxWidth: "300px",
+            marginRight: "10px",
+          }}
+          className="shadow-md"
         />
-        <Button onClick={handleSearch}>Search</Button>
+        <Button type="primary" onClick={handleSearch}>
+          Search
+        </Button>
       </div>
 
-      <div className="grid grid-cols-12 grid-flow-row gap-4">
+      {/* Recipes Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {loading ? (
-          <p>Loading...</p>
+          <div className="col-span-full flex justify-center items-center">
+            <Spin size="large" />
+          </div>
         ) : (
           recipesToDisplay?.map((item) => (
-            <div key={item._id} className="md:col-span-2">
+            <div key={item._id} className="flex justify-center">
               <Card
                 hoverable
-                style={{ width: 240 }}
+                style={{
+                  width: "100%",
+                  maxWidth: "240px",
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                }}
                 cover={<Image alt={item?.RecipeName} src={item?.imageurl} />}
               >
-                <div onClick={() => handleRecipeClick(item._id)}>
-                  <div className="font-extrabold">{item?.RecipeName}</div>
-                  <div className="font-bold">Cuisine: {item?.Cuisine}</div>
-                  <div className="font-bold">
-                    Total Time: {item?.TotalTimeInMins} mins
-                  </div>
+                <div className="font-extrabold text-lg text-center mb-2">
+                  {item?.RecipeName}
                 </div>
-                <HeartOutlined onClick={() => AddCart(item)} />
+                <div className="text-center text-sm text-gray-600">
+                  <div className="font-bold">Cuisine: {item?.Cuisine}</div>
+                  <div>Total Time: {item?.TotalTimeInMins} mins</div>
+                </div>
+                <div className="mt-4 flex justify-center">
+                  <HeartOutlined
+                    onClick={() => AddCart(item)}
+                    className="text-red-500 cursor-pointer hover:scale-110 transition-transform"
+                    style={{ fontSize: "24px" }}
+                  />
+                </div>
               </Card>
             </div>
           ))

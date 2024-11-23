@@ -189,3 +189,48 @@ export const alluserlength = async (request, response) => {
     return response.status(500).send({ message: error.message });
   }
 };
+// Route for updating user's password (email is unchanged)
+export const updateUserPasswordAndInfo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { password, oldPassword } = req.body;
+
+    // Check if the user exists
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Verify the old password
+    if (oldPassword) {
+      const isPasswordCorrect = await comparePassword(
+        oldPassword,
+        user.password
+      );
+      if (!isPasswordCorrect) {
+        return res.status(400).json({ error: "Old password is incorrect" });
+      }
+    }
+
+    // Hash the new password if provided
+    let hashedPassword = user.password;
+    if (password) {
+      hashedPassword = await hashPassword(password);
+    }
+
+    // Update only the password
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      {
+        password: hashedPassword,
+      },
+      { new: true } // Return the updated document
+    );
+
+    return res
+      .status(200)
+      .json({ message: "Password updated successfully", user: updatedUser });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

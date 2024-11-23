@@ -1,88 +1,75 @@
-import React, { useState } from 'react';
-import { Button,  Form, Input, Modal } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Button, Form, Input, message } from "antd";
+import axios from "axios"; // Assuming you are using axios to send requests
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 const Settings = () => {
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  }; 
-  const navigate=useNavigate()
-  const handlepath=()=>{
-    navigate("/auth/login")
-  }
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-  return (
-    <div className='wrapper'>
-      <Form onFinish={onFinish} layout='vertical'>
-    <div className="">
-<div className="">
-<Form.Item
-        name="email"
-        label="E-mail"
-        rules={[
-          {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
-          },
-          {
-            required: true,
-            message: 'Please input your E-mail!',
-          },
-        ]}
-      >
-        <Input className="input-box"/>
-      </Form.Item>
-</div>
-<div className="">
-<Form.Item
-        name="phone"
-        label="Phone Number"
-      >
-        <Input className="input-box"/>
-      </Form.Item>
-</div>
-<div className="">
-<Form.Item
-      label="Enter Old Password"
-      name="password"
-    >
-      <Input.Password className="input-box"/>
-    </Form.Item>
-</div>
-<div className="">
-<Form.Item
-      label="Enter New Password"
-      name="password"
-    >
-      <Input.Password className="input-box"/>
-    </Form.Item>
-</div>
-    </div>
-    <Form.Item
-    className="">
-      <Button type="primary" htmlType="submit" className='btn' >
-        Submit
-      </Button>
-      </Form.Item>
-    <a onClick={showModal} className='remember-forgot'>Forget Password?</a>
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  </Form>
-  {
-      isModalOpen &&(
-        <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-      </Modal>
-      )
+  const carddata = useSelector((state) => state);
+  console.log("cardddddarad", carddata?.authSlice?.userInfo?._id);
+  const userId = carddata?.authSlice?.userInfo?._id;
+  const onFinish = async (values) => {
+    const { oldPassword, password } = values;
+    try {
+      setLoading(true);
+      // Send request to update user password
+      const response = await axios.put(
+        `http://localhost:5000/user/${userId}/update-password-and-info`,
+        {
+          oldPassword,
+          password,
+        }
+      );
+      message.success("Password updated successfully");
+      navigate("/profile"); // Navigate to profile or another page as needed
+    } catch (error) {
+      message.error(error.response?.data?.error || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
-    </div>
-  )
-}
+  };
 
-export default Settings
+  return (
+    <div className="wrapper">
+      <Form onFinish={onFinish} layout="vertical">
+        <div>
+          <Form.Item
+            name="oldPassword"
+            label="Enter Old Password"
+            rules={[
+              { required: true, message: "Please enter your old password!" },
+            ]}
+          >
+            <Input.Password className="input-box" />
+          </Form.Item>
+
+          <Form.Item
+            name="password"
+            label="Enter New Password"
+            rules={[
+              { required: true, message: "Please enter your new password!" },
+            ]}
+          >
+            <Input.Password className="input-box" />
+          </Form.Item>
+        </div>
+
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="btn"
+            loading={loading}
+          >
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
+  );
+};
+
+export default Settings;

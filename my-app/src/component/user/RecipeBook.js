@@ -45,41 +45,54 @@ const RecipeBook = ({ closeModal }) => {
   };
 
   return (
-    <div>
-      <div className="grid grid-cols-12 grid-flow-row gap-4">
+    <div className="p-4 sm:p-6 md:p-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {loading ? (
           // Show a loading spinner while the delete is in progress
-          <div className="col-span-12 text-center">
+          <div className="col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 text-center">
             <Spin size="large" />
           </div>
         ) : (
           savedRecipes?.map((savedItem) => (
-            <div key={savedItem._id} className="md:col-span-3">
+            <div key={savedItem._id} className="flex justify-center">
               <Card
                 hoverable
                 style={{
-                  width: 150,
-                  transition: "yellow 0.3s ease",
+                  width: "100%",
+                  maxWidth: 200,
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                  transition: "all 0.3s ease",
                 }}
                 cover={
                   <img
                     alt={savedItem?.recipeId?.RecipeName}
                     src={savedItem?.recipeId?.imageurl}
+                    style={{
+                      borderTopLeftRadius: "8px",
+                      borderTopRightRadius: "8px",
+                      objectFit: "cover",
+                    }}
                   />
                 }
               >
                 <div className="h-30">
                   <div
-                    className="h-30"
+                    className="h-30 cursor-pointer"
                     onClick={() => handleDetails(savedItem)}
                   >
-                    <div className="font-semibold">
+                    <div className="font-semibold text-center text-lg mb-2">
                       {savedItem?.recipeId?.RecipeName}
                     </div>
                   </div>
-                  <div>
+                  <div className="flex justify-end">
                     <DeleteFilled
                       onClick={() => handleDeleteRecipe(savedItem._id)}
+                      style={{
+                        fontSize: "18px",
+                        color: "red",
+                        cursor: "pointer",
+                      }}
                     />
                   </div>
                 </div>

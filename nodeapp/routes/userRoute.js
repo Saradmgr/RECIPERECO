@@ -8,12 +8,15 @@ import {
   loginUser,
   register,
   updateUser,
+  updateUserPasswordAndInfo,
 } from "../controllers/userController.js";
 
 const router = express.Router();
 
 //Route To save new User
 router.post("/register", register);
+
+router.put("/:id/update-password-and-info", updateUserPasswordAndInfo);
 
 //Route for GET All Users from database
 router.get("/alluser", alluser);
