@@ -5,14 +5,19 @@ Login Page
 Signup Page
 ![signup](recipepictures/signup.png)
 ![signup](recipepictures/mobileresponsiveregister.png)
+
 Login Successfull
 ![login](recipepictures/loginsuccessfull.png)
 
 User Profile
 ![user](recipepictures/userProfile.png)
+![user](recipepictures/resetpassword.png)
+![user](recipepictures/savedrecipes.png)
+
 Search Recipe
 ![search](recipepictures/SearchRecipe.png)
 ![search](recipepictures/mobileresponsivesearch.png)
+
 See Recipe Details
 ![details](recipepictures/Seedetails.png)
 ![ingredients](<recipepictures/ingredients .png>)
